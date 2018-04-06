@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1522826745312.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6D14152D",
+    "lastKnownWriteTime" : 1522950414,
+    "last_content_update" : 1522950414,
+    "path" : "~/RProjects/svmplus/R/qp_test.R",
+    "project_path" : "R/qp_test.R",
+    "properties" : {
+        "cursorPosition" : "6,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

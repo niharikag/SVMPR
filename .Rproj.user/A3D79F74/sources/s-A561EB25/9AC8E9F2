@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1522911861117.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9AC8E9F2",
+    "lastKnownWriteTime" : 1522978727,
+    "last_content_update" : 1522978727914,
+    "path" : "~/RProjects/svmplus/R/QPSvmPlus.R",
+    "project_path" : "R/QPSvmPlus.R",
+    "properties" : {
+        "cursorPosition" : "135,29",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
