@@ -33,3 +33,8 @@ aMatrix = rbind(c(-1.0, 1., -1., 0.),
 bVec = c(5.0, 3., 0., 0.)
 sol = solve.QP(P, -q, Amat = -aMatrix, bvec = -bVec)
 print(sol)
+
+
+#p <- Problem(Minimize(quad_form(p, q)), list(x >= 0))
+#is_qp(p
+

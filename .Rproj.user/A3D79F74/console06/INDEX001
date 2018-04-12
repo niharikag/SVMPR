@@ -1,1 +1,1 @@
-[]
+[{"allow_restart":true,"alt_buffer":false,"autoclose":1,"buffered_output":"\n\n","caption":"Terminal 1","channel_id":"5871","channel_mode":1,"child_procs":false,"cols":127,"cwd":"~/RProjects/svmplus","exit_code":1,"handle":"ED3D5AF6","interaction_mode":2,"max_output_lines":1000,"restarted":false,"rows":50,"shell_type":7,"show_on_output":false,"terminal_sequence":1,"title":"/home/niharika/RProjects/svmplus","track_env":true,"zombie":false}]

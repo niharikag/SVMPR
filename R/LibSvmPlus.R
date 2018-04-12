@@ -1,5 +1,5 @@
 library(quadprog)
-source("BaseSvmPlus.R")
+source("R/BaseSvmPlus.R")
 #############################################
 ### Base SVMPlus class
 #############################################
@@ -7,7 +7,7 @@ source("BaseSvmPlus.R")
 QPSvmPlus <- setRefClass(
   "QPSvmPlus", contains = "BaseSvmPlus",
   fields = list(
-    QP = "ANY"
+    LIBSVM = "ANY"
   ),
   methods = list(
     initialize = function(cost = 1, gamma = 1,
@@ -96,19 +96,19 @@ QPSvmPlus <- setRefClass(
       #print(KStar)
 
       P1 = cbind( (K * (y %*% t(y)) ) + (KStar / .self$Gamma),
-                           (KStar / .self$Gamma) )
+                  (KStar / .self$Gamma) )
       P2 = cbind( (KStar / .self$Gamma), (KStar / .self$Gamma) )
       P = rbind(P1, P2)
       #print(P)
 
       A = rbind( matrix(1, 1, 2 * n_samples),
-                          cbind( t(y), matrix(0, 1, n_samples)) )
+                 cbind( t(y), matrix(0, 1, n_samples)) )
       b = matrix(c(n_samples * .self$Cost, 0), 2, 1)
       G = - diag(1, 2 * n_samples)
       #print(G)
       h = matrix(0, 1, 2 * n_samples)
       Q =  (- (.self$Cost / (2 * .self$Gamma))) * colSums(cbind((KStar + t(KStar)), (KStar + t(KStar)))) - (
-         rbind(matrix(1, n_samples, 1), matrix(0, n_samples, 1)) )
+        rbind(matrix(1, n_samples, 1), matrix(0, n_samples, 1)) )
       q = Q
 
       aMat = cbind(t(A), G)
@@ -225,11 +225,3 @@ QPSvmPlus <- setRefClass(
 )
 
 
-qp = QPSvmPlus$new(cost = 1, gamma = 1,
-                     kernel_x = "linear", degree_x = 3, gamma_x = .01,
-                     kernel_xstar = "linear", degree_xstar = 3, gamma_xstar = .01,
-                     tol = .00001)
-X = 2*diag(3)
-X_test = 3*diag(3)
-qp$fit(X, X, c(1,1,-1))
-qp$predict(X_test)

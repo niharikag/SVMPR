@@ -92,8 +92,7 @@ poly_kernel <- function(x1, x2, param = 2)
 # Radial basis kernel
 rbf_kernel <- function(x1, x2, param = 1)
 {
-  #return (exp(-(norm((x1 - x2), type="2") ^ 2) * param))
-  return (t(x1) %*% x2)
+  return (exp(-(norm((x1 - x2), type="2") ^ 2) * param))
 }
 
 
