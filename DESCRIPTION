@@ -1,11 +1,14 @@
 Package: svmplus
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Implementation of SVM plus
+Date: 2018-04-15
+Version: 1.0.0
+Author: Niharika Gauraha and Ola Spjuth
+Maintainer: Niharika Gauraha <niharika.gauraha@farmbio.uu.se>
+Description: Implementation of SVM plus for classification problems. See (Vladimir et. al, 2009, <https://doi.org/10.1016/j.neunet.2009.06.042>) for theoretical details and see (Li et. al, 2016, <https://github.com/okbalefthanded/svmplus_matlab>) for implementation in MATLAB.
+Depends: R (>= 2.15.0), quadprog
+License: GPL-3
 Encoding: UTF-8
+NeedsCompilation: no
 LazyData: true
+RoxygenNote: 6.0.1
