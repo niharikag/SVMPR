@@ -1,5 +1,5 @@
 # Linear kernel
-linear_kernel <- function(x1, x2, param = None)
+linear_kernel <- function(x1, x2, param = NULL)
 {
   return (t(x1) %*% x2)
 }

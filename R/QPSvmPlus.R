@@ -1,7 +1,7 @@
 ##################################################################
-### QPSVMPlus class: optimization using quadprog package.
-### In future, planning to solve the optimization problem
-### using CVXR, LibSVM and Liblinear in a separate class for each
+### QPSVMPlus class: uses solve.QP from 'quadprog' package.
+### In future, LIBSVM and LIBLINEAR based faster
+### implementaions are planned to be supported.
 #################################################################
 
 QPSvmPlus <- setRefClass(
@@ -96,11 +96,6 @@ QPSvmPlus <- setRefClass(
       .self$N_class = n_class
       .self$Model = list()
 
-
-      #print("K")
-      #print(K)
-      #print("K Star")
-      #print(KStar)
       for(i in 1:n_class)
       {
           y_temp = y
@@ -112,36 +107,20 @@ QPSvmPlus <- setRefClass(
                                (KStar / .self$Gamma) )
           P2 = cbind( (KStar / .self$Gamma), (KStar / .self$Gamma) )
           P = rbind(P1, P2)
-
-          #print("matrix P")
-          #print(P)
+          P <- nearPD(P)$mat
 
           A = cbind( matrix(1, 2 * n_samples, 1),
                               rbind(y, matrix(0,  n_samples, 1)) )
           b = matrix(c(n_samples * .self$Cost, 0), 2, 1)
           G = diag(1, 2 * n_samples)
-          #print(G)
           h = matrix(0, 2 * n_samples, 1)
           Q =  (- (.self$Cost / (2 * .self$Gamma))) * colSums(cbind((KStar + t(KStar)), (KStar + t(KStar)))) - (
              rbind(matrix(1, n_samples, 1), matrix(0, n_samples, 1)) )
           q = Q
 
-          #print(" matrixq")
-          #print(q)
-
           aMat = cbind(A, G)
           bVec = rbind( b, h)
 
-          #print(" matrix aMat")
-          #print(aMat)
-
-          #print(" matrix bVex")
-          #print(bVec)
-          #print(q)
-          #print(G)
-          #print(h)
-          #print(A)
-          #print(b)
           retValue = solve.QP(P, -q, Amat = aMat, bvec = bVec, meq = 2)
           if(any(is.na(retValue$solution)))
             stop("QP returns NaN")
@@ -149,28 +128,15 @@ QPSvmPlus <- setRefClass(
           alpha = retValue$solution[1:n_samples]
           beta = retValue$solution[(n_samples+1):(2*n_samples)]
 
-          #print("alpha")
-          #print(alpha)
-          #print("beta")
-          #print(beta)
-
           #compute b_star first
           wxstar = (1 / .self$Gamma) * (KStar %*% (alpha + beta - .self$Cost))
 
-          #print("wxstar")
-          #print(wxstar)
           wxstar_idx = beta > .self$TOL
-
-          #print("wxstar index")
-          #print(wxstar_idx)
 
           if (all(wxstar_idx) == FALSE )  # no beta > tol
             b_star = max(-wxstar)
           else
             b_star = mean(-wxstar)
-
-          #print("b_star")
-          #print(b_star)
 
           sv = alpha > .self$TOL # tolerance
           sv_x = X[sv, ]
@@ -178,19 +144,8 @@ QPSvmPlus <- setRefClass(
 
           wx = t(K %*% (alpha * y))
 
-          #print("matrix K * (alpha * y)")
-          #print(wx)
-          #print("y*(1 - wxstar - b_star)")
-          #print(y*(1 - wxstar - b_star))
-
           temp = t(y * (1 - wxstar - b_star))
-          #print(temp)
-          #print(wx)
-          wx = -wx + temp #matrix(rep(temp, n_samples),
-                          #  ncol =  ncol(temp) , byrow = TRUE )
-
-          #print("matrix wx")
-          #print(wx)
+          wx = -wx + temp
 
           if(all(sv) == FALSE ) # no alpha > tol
           {
@@ -201,20 +156,12 @@ QPSvmPlus <- setRefClass(
           else
             b = mean(wx[sv])
 
-          #print("bias b")
-          #print(b)
-
           m = list()
           support_index = c(1:n_samples)
           m$Support_index = support_index[sv]
-          #.self$Support_y = sv_y
           m$Dual_coef = sv_y * alpha[sv]
-          #print("dual coeff")
-          #print(m$Dual_coef)
           m$Intercept = b
           .self$Model = append(.self$Model, list(m))
-          #print("Model")
-          #print(.self$Model)
 
           y = y_temp
       }
@@ -256,7 +203,6 @@ QPSvmPlus <- setRefClass(
         for (i in 1:n_test)
         {
           s = 0
-          #print(.self$Model[[1]])
           for (j in 1:length(.self$Model[[1]]$Dual_coef))
           {
             a = .self$Model[[1]]$Dual_coef[j]
@@ -272,7 +218,6 @@ QPSvmPlus <- setRefClass(
           for (i in 1:n_test)
           {
             s = 0
-            #print(.self$Model[[cls]])
             for (j in 1:length(.self$Model[[cls]]$Dual_coef))
             {
               a = .self$Model[[cls]]$Dual_coef[j]
@@ -290,8 +235,7 @@ QPSvmPlus <- setRefClass(
       if(is.null(X))
         stop("passed NULL X")
 
-      #print("predict function")
-      #print(.self$N_class)
+      print("predict function")
       if(.self$N_class == 1)
       {
         y_predict = sign(.self$project(X) + .self$Model[[1]]$Intercept)
@@ -304,11 +248,9 @@ QPSvmPlus <- setRefClass(
         for (cls in 1:.self$N_class)
         {
           y_temp = y_project[, cls] + .self$Model[[cls]]$Intercept
-          #print(y_temp)
           y_predict[ y_temp >= 0] = cls
         }
       }
-      #print(y_predict)
       return(y_predict)
     }
   )

@@ -1,12 +1,12 @@
 Package: svmplus
 Type: Package
-Title: Implementation of SVM plus
-Date: 2018-04-15
+Title: Implementation of Support Vector Machines Plus (SVM+)
+Date: 2018-04-19
 Version: 1.0.0
 Author: Niharika Gauraha and Ola Spjuth
 Maintainer: Niharika Gauraha <niharika.gauraha@farmbio.uu.se>
-Description: Implementation of SVM plus for classification problems. See (Vladimir et. al, 2009, <https://doi.org/10.1016/j.neunet.2009.06.042>) for theoretical details and see (Li et. al, 2016, <https://github.com/okbalefthanded/svmplus_matlab>) for implementation in MATLAB.
-Depends: R (>= 2.15.0), quadprog
+Description: Implementation of Support Vector Machines Plus (SVM+) for classification problems. See (Vladimir et. al, 2009, <doi:10.1016/j.neunet.2009.06.042>) for theoretical details and see (Li et. al, 2016, <https://github.com/okbalefthanded/svmplus_matlab>) for implementation details in 'MATLAB'.
+Depends: R (>= 2.15.0), quadprog, methods, Matrix, MASS
 License: GPL-3
 Encoding: UTF-8
 NeedsCompilation: no

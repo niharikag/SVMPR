@@ -1,2 +1,5 @@
 import(quadprog)
-export(svmPlus)
+import(methods)
+import(Matrix)
+export(SVMP)
+import(MASS)
