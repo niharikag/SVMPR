@@ -18,9 +18,9 @@ SVMP = function(cost = 1, gamma = 1,
   if(svm_type != "QP")
     stop("Currently SVMP supports only QP based optimization")
 
-  return( QPSvmPlus$new(cost = 1, gamma = 1,
-                     kernel_x = "rbf", degree_x = 3, gamma_x = .001,
-                     kernel_xstar = "rbf", degree_xstar = 3, gamma_xstar = .001,
-                     tol = .00001) )
+  return( QPSvmPlus$new(cost, gamma,
+                     kernel_x, degree_x, gamma_x,
+                     kernel_xstar, degree_xstar, gamma_xstar,
+                     tol) )
 
 }

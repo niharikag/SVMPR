@@ -92,15 +92,43 @@ Niharika Gauraha and Ola Spjuth
   X2 = mvrnorm(n_test, mean2, Sigma = cov2)
   X_test = rbind(X1, X2)
   y_test = matrix(c(rep(1, n_test), rep(-1, n_test)), 2*n_test, 1)
-# create instance of the class type QP
+# create instance of the class type QP, using RBF kernel
   qp = SVMP(cost = 100, gamma = .01,
-            kernel_x = "rbf", gamma_x = .01,
-            kernel_xstar = "rbf", gamma_xstar = .01,
+            kernel_x = "rbf", gamma_x = .001,
+            kernel_xstar = "rbf", gamma_xstar = .001,
             tol = .00001, svm_type = "QP")
 # call the fit function
   qp$fit(X_train, XStar, y_train)
 # call the predict function
   y_predict = qp$predict(X_test)
+  print(length(y_predict[y_predict == y_test]))
+  print("correct classification out of 20")
+
+
+
+  #using polynomial kernel
+  qp = SVMP(cost = 100, gamma = .01,
+            kernel_x = "poly", degree_x = 3,
+            kernel_xstar = "poly", gamma_xstar = 3,
+            tol = .00001)
+
+  qp$fit(X_train, XStar, y_train)
+
+  y_predict = qp$predict(X_test)
+
+  print(length(y_predict[y_predict == y_test]))
+  print("correct classification out of 20")
+
+  #using linear kernel
+  qp = SVMP(cost = 10, gamma = .1,
+            kernel_x = "linear",
+            kernel_xstar = "linear",
+            tol = .00001)
+
+  qp$fit(X_train, XStar, y_train)
+
+  y_predict = qp$predict(X_test)
+
   print(length(y_predict[y_predict == y_test]))
   print("correct classification out of 20")
 }

@@ -8,7 +8,7 @@ linear_kernel <- function(x1, x2, param = NULL)
 # Polynomial kernel
 poly_kernel <- function(x1, x2, param = 2)
 {
-  return (1 +  (t(x1) %*% x2)) ^ param
+  return ((1 +  t(x1) %*% x2) ^ param)
 }
 
 
